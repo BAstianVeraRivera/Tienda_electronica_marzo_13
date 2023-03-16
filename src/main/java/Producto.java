@@ -1,16 +1,26 @@
 public class Producto {
 	private String nombre;
 	private String descripcion;
-	private int precio;
-	private int stock;
+	private String precio;
+	private String stock;
 	private String categoria;
 
-	public void getAttribute() {
-		throw new UnsupportedOperationException();
+	public String toString(){
+		return this.nombre+","+this.descripcion+","+this.precio+","+this.stock+","+this.categoria;
+	}
+	public Producto (String nombre, String descripcion, String precio, String stock, String categoria){
+		this.nombre=nombre;
+		this.descripcion=descripcion;
+		this.precio=precio;
+		this.stock=stock;
+		this.categoria=categoria;
+	}
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setAttribute(Object attribute) {
-		throw new UnsupportedOperationException();
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public String getDescripcion() {
@@ -21,19 +31,19 @@ public class Producto {
 		this.descripcion = descripcion;
 	}
 
-	public int getPrecio() {
+	public String getPrecio() {
 		return this.precio;
 	}
 
-	public void setPrecio(int precio) {
+	public void setPrecio(String precio) {
 		this.precio = precio;
 	}
 
-	public int getStock() {
+	public String getStock() {
 		return this.stock;
 	}
 
-	public void setStock(int stock) {
+	public void setStock(String stock) {
 		this.stock = stock;
 	}
 
@@ -43,9 +53,5 @@ public class Producto {
 
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
-	}
-
-	public String toString() {
-		throw new UnsupportedOperationException();
 	}
 }
