@@ -6,7 +6,7 @@ public class Producto {
 	private String categoria;
 
 	public String toString(){
-		return this.nombre+","+this.descripcion+","+this.precio+","+this.stock+","+this.categoria;
+		return this.nombre+"\n"+this.descripcion+"\n"+this.precio+"\n"+this.stock+"\n"+this.categoria;
 	}
 	public Producto (String nombre, String descripcion, String precio, String stock, String categoria){
 		this.nombre=nombre;

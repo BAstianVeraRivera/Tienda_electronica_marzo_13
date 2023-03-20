@@ -1,7 +1,63 @@
-		Tienda Techy = new Tienda("Techy");
-		Producto carcasa = new Producto("Carcasa Iphone 11", " Color: rojo", " 5.000 CLP", " 5 en stock", " Categoría: Carcasas");
-		Producto audifono = new Producto("Sony WH1000XM-4", " Color: negro mate", " 300.000 CLP", " 3 en stock", " Categoría: Audifonos");
-		Techy.agregarProducto(audifono);
-		Techy.agregarProducto(carcasa);
-		Techy.mostrarProductos();
-		GestorDatos.registrarDatos(Techy.getProductos(),"bodega.txt");
+	private String nombreTienda;
+	public String getNombreTienda() {
+		return this.nombreTienda;
+	}
+
+	public void setNombreTienda(String nombreTienda) {
+		this.nombreTienda = nombreTienda;
+	}
+
+	public Tienda(String nombreTienda) {
+		this.nombreTienda = nombreTienda;
+	}
+
+	public void añadirProductoAlInventario(){
+		String[] options = {"Sí", "No"};
+		int seleccion;
+		JOptionPane.showMessageDialog(null, "Introduce los datos");
+
+		productoNuevo.setNombre(JOptionPane.showInputDialog("Nombre del Producto"));
+		productoNuevo.setDescripcion(JOptionPane.showInputDialog("Descripción del producto"));
+		productoNuevo.setPrecio(JOptionPane.showInputDialog("Precio del producto"));
+		productoNuevo.setStock(JOptionPane.showInputDialog("Stock del producto"));
+		productoNuevo.setCategoria(JOptionPane.showInputDialog("Categoría del producto"));
+		productoNuevo = new Producto(productoNuevo.getNombre(), productoNuevo.getDescripcion(), productoNuevo.getPrecio(), productoNuevo.getStock(), productoNuevo.getCategoria());
+		listaDeProductos.add(productoNuevo);
+	}
+
+	Producto productoBuscadoPorNombre = techy.buscarProductoPorNombre();
+    						System.out.println(productoBuscadoPorNombre.toString());
+    						do {
+    							try {
+    								mostrarQuitarOModificar();
+    								opcion = teclado.nextInt();
+    								if (opcion < 1 || opcion > 2) {
+    									teclado.nextLine();
+    									System.err.println("La opción ingresada no válida, por favor intente nuevamente");
+    								}
+    								switch (opcion) {
+    									case 1: {
+    										quitarProducto(productoBuscadoPorNombre);
+    									}
+    									case 2: {
+    										modificarInfo();
+    									}
+    								}
+    							} catch (InputMismatchException e) {
+    								teclado.nextLine();
+    								System.err.println("Opción ingresada no valida, por favor intente de nuevo");
+    							}
+    						} while (opcion !=100);
+    						break;
+
+  	public void buscarProductoPorNombre() {
+  		Scanner teclado = new Scanner(System.in);
+  		String busqueda = teclado.nextLine();
+  		boolean existe = listaDeProductos.contains(busqueda);
+  		if (existe) {
+  			System.out.println(listaDeProductos.contains(busqueda));
+  		} else {
+  			System.out.println("El elemento no existe");
+  		}
+  		JOptionPane. showMessageDialog (null, busqueda);
+  	}

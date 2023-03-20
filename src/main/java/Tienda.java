@@ -1,65 +1,103 @@
 import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Tienda {
-	private String nombreTienda;
 	public ArrayList<Producto> listaDeProductos = new ArrayList<Producto>();
-	Producto productoNuevo;
-
 	public ArrayList<Producto> getProductos() {
 		return listaDeProductos;
 	}
-
-	public String getNombreTienda() {
-		return this.nombreTienda;
+	public String input(String text) {
+		return JOptionPane.showInputDialog(text);
 	}
-
-	public void setNombreTienda(String nombreTienda) {
-		this.nombreTienda = nombreTienda;
-	}
-
-	public Tienda(String nombreTienda) {
-		this.nombreTienda = nombreTienda;
-	}
-	public Producto mostrarProductos() {
-
-		for (int i = 0; i < listaDeProductos.size(); i++) {
-
-			System.out.println(listaDeProductos.get(i).toString() + "\n");
+	public void mostrarProductos() {
+		String string="";
+		for (int i=0;i<listaDeProductos.size () ;i++) {
+			string+="Artículo "+(i+1)+"\n";
+			string+="Nombre: "+listaDeProductos.get (i).getNombre() +" \n" ;
+			string+="Descripción: "+listaDeProductos.get (i).getDescripcion() +" \n" ;
+			string+="Precio: "+listaDeProductos.get (i).getPrecio() +" \n" ;
+			string+="Stock: "+listaDeProductos.get (i).getStock() +" \n" ;
+			string+="Categoría: "+listaDeProductos.get (i).getCategoria() +" \n" ;
 		}
-		return null;
+		JOptionPane. showMessageDialog (null, string);
 	}
-	public Producto buscarProductoPorNombre(String nombre) {
-		for (Producto producto : this.listaDeProductos) {
-			if (producto.getNombre().equals(nombre)) {
-				return producto;
+	public Producto buscarProductoPorNombre() {
+		String nombreProductoBuscado = input("Nombre del producto: ");
+		for(Producto producto : listaDeProductos){
+			if(producto.getNombre().equals(nombreProductoBuscado)){
+				JOptionPane.showMessageDialog (null, producto);
 			}
 		}
 		return null;
 	}
-	public Producto buscarProductoPorCategoria(String categeria) {
-		for (Producto producto : this.listaDeProductos) {
-			if (producto.getCategoria().equals(categeria)) {
-				return producto;
+	public Producto buscarProductoPorCategoria() {
+		String categoríaProductoBuscado = input("Categoría del producto: ");
+		for(Producto producto : listaDeProductos){
+			if(producto.getCategoria().equals(categoríaProductoBuscado)){
+				JOptionPane.showMessageDialog (null, producto);
 			}
 		}
 		return null;
 	}
-	public Producto agregarProducto(Producto productoNuevo) {
+	public void addProducto() {
+		String nombreProductoNuevo = input("Nombre del producto: ");
+		String descripcionProductoNuevo = input("Descripción del produtcto: ");
+		String precioProductoNuevo = input("Precio del produtcto: ");
+		String stockProductoNuevo = input("Stock del produtcto: ");
+		String categoriaProductoNuevo = input("Categoría del produtcto: ");
+		Producto productoNuevo = new Producto(nombreProductoNuevo, descripcionProductoNuevo, precioProductoNuevo, stockProductoNuevo, categoriaProductoNuevo);
 		listaDeProductos.add(productoNuevo);
-		System.out.println("Producto agregado");
-		return null;
 	}
-	public void quitarProducto(Producto productoExistente) {
-		this.listaDeProductos.remove(productoExistente);
-		System.out.println("Producto eliminado");
+
+	public void mostrarMenu() {
+		Tienda techy = new Tienda();
+		byte opcion;
+
+		do{
+			opcion = Byte.parseByte(JOptionPane.showInputDialog(
+					"Menu Principal\n"
+							+"1. Mostrar todos los productos\n"
+							+"2. Buscar productos por nombre\n"
+							+"3. Buscar Productos por categoria\n"
+							+"4. Agregar producto nuevo\n"
+							+"5. Salir"));
+
+			switch(opcion){
+				case 1:
+					techy.mostrarProductos();
+					break;
+				case 2:
+					techy.buscarProductoPorNombre();
+					techy.mostrarQuitarOModificar();
+					break;
+				case 3:
+					techy.buscarProductoPorCategoria();
+					techy.mostrarQuitarOModificar();
+					break;
+				case 4:
+					techy.addProducto();
+					break;
+				case 5:
+					JOptionPane.showMessageDialog(null, "good bye");
+					break;
+
+				default:
+					JOptionPane.showMessageDialog(null, "not found");
+					break;
+
+			}
+
+
+		}while(opcion!=5);
+
 	}
 	public Producto modificarInfo() {
 		Scanner teclado = new Scanner(System.in);
-		Tienda techy = new Tienda("Techy");
+		Tienda techy = new Tienda();
 		int opcion = 0;
 		do {
 			try {
@@ -94,37 +132,15 @@ public class Tienda {
 		} while (opcion != 2);
 		return null;
 	}
-
-
-	public int mostrarOpcionesPrincipales() {
-		Scanner teclado = new Scanner(System.in);
-		int numero;
-		numero = 0;
-		while (numero < 1 || numero > 6) {
-			System.out.println("Presione 1 si desea Mostrar todos los productos.");
-			System.out.println("Presione 2 si desea Buscar producto por nombre.");
-			System.out.println("Presione 3 si desea Buscar producto por categoría.");
-			System.out.println("Presione 4 si desea Agregar un nuevo producto.");
-			numero = teclado.nextInt();
-			if (numero < 1 || numero > 4) {
-				System.out.println("La opción ingresada no es válido, intente de nuevo");
-			}
-		}
-		return numero;
-	}
 	public int mostrarQuitarOModificar() {
-		Scanner teclado = new Scanner(System.in);
-		int numero;
-		numero = 0;
-		while (numero < 1 || numero > 2) {
-			System.out.println("Presione 1 si desea quitar el producto existente.");
-			System.out.println("Presione 2 si desea modificar información del producto.");
-			numero = teclado.nextInt();
-			if (numero < 1 || numero > 4) {
-				System.out.println("La opción ingresada no es válido, intente de nuevo");
-			}
-		}
-		return numero;
+		byte opcion;
+
+		do{
+			opcion = Byte.parseByte(JOptionPane.showInputDialog(
+					"Menu Principal\n"
+							+"1. Mostrar todos los productos\n"
+							+"2. Buscar productos por nombre\n"
+
 	}
 	public int mostrarOpcionesDeModificacion() {
 		Scanner teclado = new Scanner(System.in);
@@ -142,98 +158,5 @@ public class Tienda {
 			}
 		}
 		return numero;
-	}
-	public void opcionesMenu() {
-		Scanner teclado = new Scanner(System.in);
-		Tienda techy = new Tienda("Techy");
-		int opcion = 0;
-		do {
-			try {
-				mostrarOpcionesPrincipales();
-				opcion = teclado.nextInt();
-				if (opcion < 1 || opcion > 4) {
-					teclado.nextLine();
-					System.err.println("La opción ingresada no válida, por favor intente nuevamente");
-				}
-				switch (opcion) {
-					case 1: {
-						mostrarProductos();
-					}
-					case 2: {
-						System.out.println("Ingrese nombre del producto");
-						String nombre = teclado.nextLine();
-						Producto productoBuscadoPorNombre = techy.buscarProductoPorNombre(nombre);
-						System.out.println(productoBuscadoPorNombre.toString());
-						do {
-							try {
-								mostrarQuitarOModificar();
-								opcion = teclado.nextInt();
-								if (opcion < 1 || opcion > 2) {
-									teclado.nextLine();
-									System.err.println("La opción ingresada no válida, por favor intente nuevamente");
-								}
-								switch (opcion) {
-									case 1: {
-										quitarProducto(productoBuscadoPorNombre);
-									}
-									case 2: {
-										modificarInfo();
-									}
-								}
-							} catch (InputMismatchException e) {
-								teclado.nextLine();
-								System.err.println("Opción ingresada no valida, por favor intente de nuevo");
-							}
-						} while (opcion !=100);
-					}
-					case 3: {
-						System.out.println("Ingrese categoría del producto");
-						String categoria = teclado.nextLine();
-						Producto productoBuscado = techy.buscarProductoPorCategoria(categoria);
-						System.out.println(productoBuscado.toString());
-						do {
-							try {
-								mostrarQuitarOModificar();
-								opcion = teclado.nextInt();
-								if (opcion < 1 || opcion > 2) {
-									teclado.nextLine();
-									System.err.println("La opción ingresada no válida, por favor intente nuevamente");
-								}
-								switch (opcion) {
-									case 1: {
-										quitarProducto(productoBuscado);
-									}
-									case 2: {
-										modificarInfo();
-									}
-								}
-							} catch (InputMismatchException e) {
-								teclado.nextLine();
-								System.err.println("Opción ingresada no valida, por favor intente de nuevo");
-							}
-						} while (opcion !=100);
-					}
-					case 4: {
-						añadirProductoAlInventario();
-					}
-				}
-			} catch (InputMismatchException e) {
-				teclado.nextLine();
-				System.err.println("Opción ingresada no valida, por favor intente de nuevo");
-			}
-		} while (opcion != 100);
-	}
-	public void añadirProductoAlInventario(){
-		String[] options = {"Sí", "No"};
-		int seleccion;
-		JOptionPane.showMessageDialog(null, "Introduce los datos");
-
-		productoNuevo.setNombre(JOptionPane.showInputDialog("Nombre del Producto"));
-		productoNuevo.setDescripcion(JOptionPane.showInputDialog("Descripción del producto"));
-		productoNuevo.setPrecio(JOptionPane.showInputDialog("Precio del producto"));
-		productoNuevo.setStock(JOptionPane.showInputDialog("Stock del producto"));
-		productoNuevo.setCategoria(JOptionPane.showInputDialog("Categoría del producto"));
-		productoNuevo = new Producto(productoNuevo.getNombre(), productoNuevo.getDescripcion(), productoNuevo.getPrecio(), productoNuevo.getStock(), productoNuevo.getCategoria());
-		listaDeProductos.add(productoNuevo);
 	}
 }
