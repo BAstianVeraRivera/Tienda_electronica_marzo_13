@@ -23,7 +23,7 @@ public class Tienda {
 			string+="Stock: "+listaDeProductos.get (i).getStock() +" \n" ;
 			string+="Categoría: "+listaDeProductos.get (i).getCategoria() +" \n" ;
 		}
-		JOptionPane. showMessageDialog (null, string);
+		JOptionPane.showMessageDialog (null, string);
 	}
 	public Producto buscarProductoPorNombre() {
 		String nombreProductoBuscado = input("Nombre del producto: ");
@@ -95,52 +95,35 @@ public class Tienda {
 		}while(opcion!=5);
 
 	}
-	public Producto modificarInfo() {
-		Scanner teclado = new Scanner(System.in);
+	public void mostrarQuitarOModificar() {
 		Tienda techy = new Tienda();
-		int opcion = 0;
-		do {
-			try {
-				mostrarOpcionesDeModificacion();
-				opcion = teclado.nextInt();
-				if (opcion < 1 || opcion > 5) {
-					teclado.nextLine();
-					System.err.println("La opción ingresada no válida, por favor intente nuevamente");
-				}
-				switch (opcion) {
-					case 1: {
-						//POR HACER
-					}
-					case 2: {
-						//POR HACER
-					}
-					case 3: {
-						//POR HACER
-					}
-					case 4: {
-						//POR HACER
-					}
-					case 5: {
-						//POR HACER
-					}
-
-				}
-			} catch (InputMismatchException e) {
-				teclado.nextLine();
-				System.err.println("Opción ingresada no valida, por favor intente de nuevo");
-			}
-		} while (opcion != 2);
-		return null;
-	}
-	public int mostrarQuitarOModificar() {
 		byte opcion;
-
-		do{
+		do {
 			opcion = Byte.parseByte(JOptionPane.showInputDialog(
 					"Menu Principal\n"
-							+"1. Mostrar todos los productos\n"
-							+"2. Buscar productos por nombre\n"
+							+ "1. Mostrar todos los productos\n"
+							+ "2. Buscar productos por nombre\n"
+							+ "5. Salir"));
+			switch (opcion) {
+				case 1:
+					techy.mostrarMenu();
+					break;
+				case 2:
+					techy.mostrarProductos();
+					break;
 
+				case 3:
+					techy.mostrarProductos();
+					break;
+				case 4:
+					JOptionPane.showMessageDialog(null, "good bye");
+					break;
+
+				default:
+					JOptionPane.showMessageDialog(null, "not found");
+					break;
+			}
+		}while(opcion!=3);
 	}
 	public int mostrarOpcionesDeModificacion() {
 		Scanner teclado = new Scanner(System.in);
@@ -159,4 +142,5 @@ public class Tienda {
 		}
 		return numero;
 	}
+
 }
